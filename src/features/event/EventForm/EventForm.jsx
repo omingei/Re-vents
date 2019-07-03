@@ -8,12 +8,30 @@ class EventForm extends Component {
     city: '',
     venue: '',
     hostedBy: ''
+  };
+
+  //life cycle method
+  //called immediately after a state is mounted
+  //setting state here will trigger re-rendering
+  componentDidMount(){
+    if (this.props.selectedEvent !== null) {
+      this.setState({
+        //use the spread operator (...) to take all the individual properties of the 
+        //objects
+        ...this.props.selectedEvent
+      })
+    }
   }
   //handles form submissions. preventDefault ignores normal submit
   handleFormSubmit = evt => {
      evt.preventDefault();
-     this.props.createEvent(this.state);
-  }
+     if (this.state.id) {
+       this.props.updateEvent(this.state);
+     } else {
+      this.props.createEvent(this.state);
+     }
+     
+  };
 
   handleInputChange = ({target: {name,value}}) => {
     this.setState({
